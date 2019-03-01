@@ -1,0 +1,4 @@
+---
+- name: Ensure Swarm is Disabled
+  docker_swarm:
+    state: absent

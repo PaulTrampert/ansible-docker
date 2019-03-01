@@ -1,0 +1,11 @@
+---
+default_swarm:
+  enable: no
+  role: manager
+  advertise_addr: "{{ansible_default_ipv4.address}}"
+  join: no
+  join_host: ''
+  join_port: -1
+  manager_join_token: ''
+  worker_join_token: ''
+

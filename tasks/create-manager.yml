@@ -1,0 +1,10 @@
+---
+- name: Create docker swarm
+  docker_swarm:
+    state: present
+    advertise_addr: "{{final_swarm.advertise_addr}}"
+  register: swarm_info
+
+- name: Publish Swarm Manager Key
+  set_fact:
+    final_swarm: "{{final_swarm | combine({'join_manager_token':swarm_info.swarm_facts.JoinTokens.Manager, 'join_worker_token':swarm_info.swarm_facts.JoinTokens.Worker})}}"
