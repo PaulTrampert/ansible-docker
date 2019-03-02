@@ -20,6 +20,12 @@
     name: [ docker-ce, docker-ce-cli, containerd.io ]
     state: latest
 
+- name: Ensure the docker service is running and enabled
+  service:
+    name: docker
+    enabled: yes
+    state: started
+
 - name: Install python docker
   pip:
     name: docker
