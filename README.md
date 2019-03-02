@@ -1,17 +1,26 @@
 Role Name
 =========
 
-A brief description of the role goes here.
+Configures Docker CE on an Ubuntu host, optionally also configuring swarm.
 
 Requirements
 ------------
 
-Any pre-requisites that may not be covered by Ansible itself or the role should be mentioned here. For instance, if the role uses the EC2 module, it may be a good idea to mention in this section that the boto package is required.
+No requirements.
 
 Role Variables
 --------------
 
-A description of the settable variables for this role should go here, including any variables that are in defaults/main.yml, vars/main.yml, and any variables that can/should be set via parameters to the role. Any variables that are read from other roles and/or the global scope (ie. hostvars, group vars, etc.) should be mentioned here as well.
+| Variable                 | Type            | Default                            | Description                                                              |
+|--------------------------|-----------------|------------------------------------|--------------------------------------------------------------------------|
+| swarm_enable             | yes\|no         | no                                 | Configure docker in swarm mode or standalone                             |
+| swarm_role               | manager\|worker | manager                            | If in swarm mode, configures whether to be manager or worker             |
+| swarm_advertise_addr     | IP[:Port]       | {{ansible_default_ipv4.address}}   | The swarm advertise address                                              |
+| swarm_join               | yes\|no         | no                                 | If yes, joins an existing swarm                                          |
+| swarm_join_host          | IP              | ''                                 | The host to use when joining an existing swarm                           |
+| swarm_join_port          | Port Number     | 2377                               | The port to join on when joining an existing swarm                       |
+| swarm_manager_join_token | String          | ''                                 | The manager join token. If creating a swarm, will be set in the hostvars |
+| swarm_worker_join_token  | String          | ''                                 | The worker join token. If creating a swarm, will be set in the hostvars  |
 
 Dependencies
 ------------
@@ -22,17 +31,50 @@ Example Playbook
 ----------------
 
 Including an example of how to use your role (for instance, with variables passed in as parameters) is always nice for users too:
+```yml
+- hosts: all
+  name: Gather facts from all hosts
+  tasks: []
 
-    - hosts: servers
-      roles:
-         - { role: username.rolename, x: 42 }
+- hosts: leader
+  become: yes
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3 # Force ansible to use python3 - Ubuntu doesn't ship with 2 by default
+    swarm_enable: yes
+    swarm_advertise_addr: "{{ansible_default_ipv4.address}}:2377"
+  roles:
+    - name: ansible-docker
+
+- hosts: managers
+  become: yes
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    swarm_enable: yes
+    swarm_join: yes
+    swarm_advertise_addr: "{{ansible_default_ipv4.address}}:2377"
+    swarm_join_host: "{{hostvars['leader']['ansible_default_ipv4']['address']}}"
+    swarm_manager_join_token: "{{hostvars['leader']['swarm_manager_join_token']}}"
+  roles:
+    - name: ansible-docker
+
+- hosts: workers
+  become: yes
+  become_user: root
+  vars:
+    ansible_python_interpreter: /usr/bin/python3
+    swarm_enable: yes
+    swarm_role: worker
+    swarm_join: yes
+    swarm_advertise_addr: "{{ansible_default_ipv4.address}}:2377"
+    swarm_join_host: "{{hostvars['leader']['ansible_default_ipv4']['address']}}"
+    swarm_worker_join_token: "{{hostvars['leader']['swarm_worker_join_token']}}"
+  roles:
+    - name: ansible-docker
+```
 
 License
 -------
 
-BSD
-
-Author Information
-------------------
-
-An optional section for the role authors to include contact information, or a website (HTML is not allowed).
+MIT
