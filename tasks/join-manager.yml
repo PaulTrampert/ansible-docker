@@ -1,0 +1,8 @@
+---
+- name: Join swarm as manager
+  docker_swarm:
+    state: join
+    advertise_addr: "{{swarm_advertise_addr}}"
+    join_token: "{{swarm_manager_join_token}}"
+    remote_addrs: ["{{swarm_join_host}}:{{swarm_join_port}}"]
+

@@ -1,2 +1,0 @@
----
-final_swarm: "{{ default_swarm | combine(swarm | default({})) }}"

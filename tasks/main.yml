@@ -31,9 +31,9 @@
     name: docker
 
 - name: Configure Swarm
-  include: "{{'join' if final_swarm.join else 'create'}}-{{final_swarm.role}}.yml"
-  when: "final_swarm.enable"
+  include: "{{'join' if swarm_join else 'create'}}-{{swarm_role}}.yml"
+  when: "swarm_enable"
 
 - name: Configure Solo
   include: "solo.yml"
-  when: "not final_swarm.enable"
+  when: "not swarm_enable"
