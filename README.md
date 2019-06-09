@@ -1,7 +1,7 @@
 Role Name
 =========
 
-Configures Docker CE on an Ubuntu host, optionally also configuring swarm.
+Configures Docker CE on an Ubuntu or ArchLinux host, optionally also configuring swarm.
 
 Requirements
 ------------
