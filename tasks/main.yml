@@ -1,5 +1,5 @@
 ---
-- name: Install apt prerequisites
+- name: Install prerequisites and docker
   include_tasks: "install-docker-{{ansible_distribution}}.yml"
 
 - name: Ensure the docker service is running and enabled
