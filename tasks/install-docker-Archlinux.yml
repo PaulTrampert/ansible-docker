@@ -1,5 +1,5 @@
 ---
 - name: Install Docker
   pacman:
-    name: ['docker', 'docker-compose']
+    name: ['docker', 'docker-compose', 'python-pip']
     state: latest
