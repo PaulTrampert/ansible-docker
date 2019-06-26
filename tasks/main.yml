@@ -14,7 +14,7 @@
 
 - name: Configure Swarm
   include: "{{'join' if swarm_join else 'create'}}-{{swarm_role}}.yml"
-  when: "swarm_enable"
+  when: "swarm_enable | bool"
 
 - name: Configure Solo
   include: "solo.yml"
