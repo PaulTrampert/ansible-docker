@@ -8,6 +8,10 @@
     enabled: yes
     state: started
 
+- name: Install setuptools
+  pip:
+    name: setuptools
+
 - name: Install python docker
   pip:
     name: docker
