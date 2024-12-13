@@ -2,6 +2,6 @@
 - name: Join swarm as worker
   docker_swarm:
     state: join
-    advertise_addr: "{{swarm_advertise_addr}}"
-    join_token: "{{swarm_worker_join_token}}"
-    remote_addrs: ["{{swarm_join_host}}:{{swarm_join_port}}"]
+    advertise_addr: "{{ swarm_advertise_addr }}"
+    join_token: "{{ swarm_worker_join_token }}"
+    remote_addrs: ["{{ swarm_join_host }}:{{ swarm_join_port }}"]

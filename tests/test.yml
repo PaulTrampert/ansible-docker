@@ -1,5 +1,9 @@
 ---
-- hosts: localhost
-  remote_user: root
+- name: Test Docker Swarm
+  hosts: all
+  become: true
+  vars:
+    swarm_enable: true
   roles:
-    - ansible-docker
+    - ubuntu_base
+    - ../

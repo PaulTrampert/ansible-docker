@@ -1,6 +1,6 @@
 ---
 - name: Install prerequisites and docker
-  include_tasks: "install-docker-{{ansible_distribution}}.yml"
+  include_tasks: "install-docker-{{ ansible_distribution }}.yml"
 
 - name: Ensure the docker service is running and enabled
   service:
@@ -9,17 +9,17 @@
     state: started
 
 - name: Install setuptools
-  pip:
-    name: setuptools
+  package:
+    name: python3-setuptools
 
 - name: Install python docker
-  pip:
-    name: docker
+  package:
+    name: python3-docker
 
 - name: Configure Swarm
-  include: "{{'join' if swarm_join else 'create'}}-{{swarm_role}}.yml"
+  include_tasks: "{{ 'join' if swarm_join else 'create' }}-{{ swarm_role }}.yml"
   when: "swarm_enable | bool"
 
 - name: Configure Solo
-  include: "solo.yml"
+  include_tasks: "solo.yml"
   when: "not swarm_enable"

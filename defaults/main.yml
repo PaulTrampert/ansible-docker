@@ -7,4 +7,3 @@ swarm_join_host: ''
 swarm_join_port: 2377
 swarm_manager_join_token: ''
 swarm_worker_join_token: ''
-

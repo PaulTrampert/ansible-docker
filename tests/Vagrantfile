@@ -1,0 +1,15 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+Vagrant.configure("2") do |config|
+  config.vm.box = "bento/ubuntu-24.04"
+
+  config.vm.provider "virtualbox" do |vb|
+    vb.memory = 16384
+    vb.cpus = 4
+  end
+
+  config.vm.provision "ansible", run: "always" do |ansible|
+    ansible.playbook = "test.yml"
+    ansible.galaxy_role_file = "requirements.yml"
+  end
+end
