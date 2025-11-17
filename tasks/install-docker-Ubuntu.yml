@@ -17,5 +17,5 @@
 - name: Install Docker
   apt:
     update_cache: yes
-    name: [ docker-ce=5:28.5.2-1~ubuntu.24.04~noble, docker-ce-cli=5:28.5.2-1~ubuntu.24.04~noble, containerd.io ]
+    name: [ docker-ce, docker-ce-cli, containerd.io ]
     allow_downgrade: yes
